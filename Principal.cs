@@ -35,8 +35,12 @@ namespace WifiView
                 pbProgress.Value = 0;
                 pbProgress.Maximum = 100;
                 pnProgresso.Visible = true;
+                if(!WlanClient.WlanInterface.ReferenceEquals(this, null))
+                {
+                    return;
+                }
                 var wlan = new WlanClient();
-                Collection<String> connectedSsids = new Collection<string>();
+                Collection<string> connectedSsids = new Collection<string>();
 
                 foreach (WlanClient.WlanInterface wlanInterface in wlan.Interfaces)
                 {
@@ -45,6 +49,7 @@ namespace WifiView
                     Wlan.Dot11Ssid ssid = wlanInterface.CurrentConnection.wlanAssociationAttributes.dot11Ssid;
                     connectedSsids.Add(new String(Encoding.ASCII.GetChars(ssid.SSID, 0, (int)ssid.SSIDLength)));
                 }
+
                 lsRedes.Items.Clear();
                 lsRedes.Items.Add(connectedSsids);
                 btnExportarLista.Enabled = true;
